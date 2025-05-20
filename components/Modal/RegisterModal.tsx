@@ -62,7 +62,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-2 w-full bg-transparent rounded-lg border-2"
+            className="p-2 w-full bg-transparent rounded-lg border-2 text-slate-300"
             placeholder="e-mail"
             required
           />
@@ -70,7 +70,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="p-2 w-full bg-transparent rounded-lg border-2"
+            className="p-2 w-full bg-transparent rounded-lg border-2 text-slate-300"
             placeholder="password"
             required
           />
@@ -78,7 +78,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            className="p-2 w-full bg-transparent rounded-lg border-2"
+            className="p-2 w-full bg-transparent rounded-lg border-2 text-slate-300"
             placeholder="First Name"
             required
           />
@@ -86,7 +86,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             type="text"
             value={surName}
             onChange={(e) => setSurName(e.target.value)}
-            className="p-2 w-full bg-transparent rounded-lg border-2"
+            className="p-2 w-full bg-transparent rounded-lg border-2 text-slate-300"
             placeholder="SurName"
             required
           />
