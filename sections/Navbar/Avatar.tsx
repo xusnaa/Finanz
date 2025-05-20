@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { User, LogIn, UserPlus } from "lucide-react";
-import LoginModal from "@/components/Modal/LoginModal";
-import RegisterModal from "@/components/Modal/RegisterModal";
+import { useState } from 'react';
+import { User, LogIn, UserPlus } from 'lucide-react';
+import LoginModal from '@/components/Modal/LoginModal';
+import RegisterModal from '@/components/Modal/RegisterModal';
 
 const Avatar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -54,12 +54,7 @@ const Avatar = () => {
         </div>
       )}
 
-      {showLogin && (
-        <LoginModal
-          handleModalclose={closeModals}
-          openRegister={openRegister}
-        />
-      )}
+      {showLogin && <LoginModal handleModalclose={closeModals} openRegister={openRegister} />}
 
       {showRegister && (
         <RegisterModal
