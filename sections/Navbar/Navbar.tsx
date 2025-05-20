@@ -1,8 +1,8 @@
-import React from "react";
-import Logo from "./Logo";
-import Navlinks from "./Navlinks";
-import Theme from "./theme";
-import Avatar from "./Avatar";
+import React from 'react';
+import Logo from './Logo';
+import Navlinks from './Navlinks';
+import Theme from './theme';
+import Avatar from './Avatar';
 
 const Navbar = () => {
   return (

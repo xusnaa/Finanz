@@ -1,5 +1,5 @@
-import { X } from "lucide-react";
-import React, { useState } from "react";
+import { X } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface RegisterModalProps {
   toggleModal: () => void;
@@ -12,17 +12,17 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   handleModalclose,
   openLogin,
 }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [surName, setSurName] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [surName, setSurName] = useState('');
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch("/api/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email,
         password,
@@ -33,20 +33,17 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
     const data = await res.json();
 
     if (res.ok) {
-      alert("User created!");
+      alert('User created!');
       handleModalclose();
     } else {
-      alert(data.error || "Failed to register");
+      alert(data.error || 'Failed to register');
     }
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
       <div className="bg-gray-100 dark:bg-gray-950 rounded-lg shadow-lg w-full max-w-md md:max-w-xl p-6 overflow-y-auto max-h-[90vh]">
-        <form
-          onSubmit={handleRegister}
-          className="relative flex flex-col gap-6"
-        >
+        <form onSubmit={handleRegister} className="relative flex flex-col gap-6">
           <div
             className="absolute top-4 right-4 cursor-pointer dark:text-slate-300"
             onClick={handleModalclose}
@@ -54,9 +51,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             <X size={24} />
           </div>
 
-          <h1 className="text-3xl font-extrabold text-center dark:text-slate-300 mt-4">
-            Register
-          </h1>
+          <h1 className="text-3xl font-extrabold text-center dark:text-slate-300 mt-4">Register</h1>
 
           <input
             type="email"

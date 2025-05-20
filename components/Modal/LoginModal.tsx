@@ -1,39 +1,34 @@
-"use client";
+'use client';
 
-import { X } from "lucide-react";
-import React, { useState } from "react";
+import { X } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface LoginModalProps {
-  toggleModal: () => void;
   handleModalclose: () => void;
   openRegister: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({
-  toggleModal,
-  handleModalclose,
-  openRegister,
-}) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const LoginModal: React.FC<LoginModalProps> = ({ handleModalclose, openRegister }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
 
     const data = await res.json();
 
     if (res.ok) {
-      alert("Login successful");
-      console.log("User:", data.user);
+      alert('Login successful');
+      console.log('User:', data.user);
       handleModalclose();
     } else {
-      alert(data.error || "Login failed");
+      alert(data.error || 'Login failed');
     }
   };
 
@@ -48,9 +43,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             <X size={24} />
           </div>
 
-          <h1 className="text-3xl font-extrabold text-center text-slate-300 mt-4">
-            Login
-          </h1>
+          <h1 className="text-3xl font-extrabold text-center text-slate-300 mt-4">Login</h1>
 
           <input
             type="email"
@@ -79,7 +72,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             onClick={openRegister}
             className="text-center text-md dark:text-slate-300 cursor-pointer mt-6"
           >
-            Don't have an account? Sign Up
+            Dont have an account? Sign Up
           </p>
         </form>
       </div>

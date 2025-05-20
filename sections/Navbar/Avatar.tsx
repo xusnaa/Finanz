@@ -56,7 +56,6 @@ const Avatar = () => {
 
       {showLogin && (
         <LoginModal
-          toggleModal={toggleMenu}
           handleModalclose={closeModals}
           openRegister={openRegister}
         />

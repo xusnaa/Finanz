@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { BankLogos } from "@/constants/data";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import React from "react";
+import { BankLogos } from '@/constants/data';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import React from 'react';
 
 const SCROLL_DURATION = 20; // in seconds
 
@@ -17,10 +17,10 @@ const BankLogoScroller: React.FC = () => {
       </div>
       <motion.div
         className="flex space-x-16"
-        animate={{ x: ["0%", "-50%"] }}
+        animate={{ x: ['0%', '-50%'] }}
         transition={{
           repeat: Infinity,
-          ease: "linear",
+          ease: 'linear',
           duration: SCROLL_DURATION,
         }}
       >

@@ -1,9 +1,9 @@
-"use client"; // if you're using Next.js App Router
+'use client'; // if you're using Next.js App Router
 
-import React, { useState } from "react";
-import Theme from "./theme";
-import { Menu, X } from "lucide-react";
-import Avatar from "./Avatar";
+import React, { useState } from 'react';
+import Theme from './theme';
+import { Menu, X } from 'lucide-react';
+import Avatar from './Avatar';
 
 const Navlinks = () => {
   const [menuOpen, setMenuOpen] = useState(false);
