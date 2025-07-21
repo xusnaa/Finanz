@@ -12,7 +12,7 @@ const BankLogoScroller: React.FC = () => {
 
   return (
     <div className="w-full overflow-hidden p-7 text-slate-300">
-      <div className="flex items-center justify-center p-4 m-6 text-3xl  font-light">
+      <div className="flex items-center justify-center p-4 m-6 text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 dark:from-pink-400 dark:to-purple-500 bg-clip-text text-transparent ">
         Get access to your personal Bank
       </div>
       <motion.div

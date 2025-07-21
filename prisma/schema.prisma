@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  email       String        @unique
+  password    String
+  firstname   String
+  latname     String
+  verified    Boolean       @default(false)
+  otp         String?
+  otpExpiresAt DateTime?
+  createdAt   DateTime      @default(now())
+  plaid      PlaidItem[]
+
+  transactions Transaction[] // one-to-many relation (User has many Transactions)
+}
+model PlaidItem {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @db.ObjectId
+  accessToken String    
+  itemId      String     @unique   
+  institutionName String?
+  accounts     Account[]
+   transactions Transaction[]
+  createdAt   DateTime @default(now())
+}
+
+model Account {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  plaidItem PlaidItem @relation(fields: [plaidItemId], references: [id])
+  plaidItemId String  @db.ObjectId
+
+  name      String
+  mask      String?
+  officialName String?
+  subtype   String?
+  type      String
+  accountId String        @unique   // From Plaid
+  createdAt DateTime @default(now())
+
+  transactions Transaction[] // one-to-many (Account has many Transactions)
+}
+
+model Transaction {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+
+  plaidItem PlaidItem @relation(fields: [plaidItemId], references: [id])
+  plaidItemId String  @db.ObjectId
+
+  account   Account   @relation(fields: [accountDbId], references: [id])
+  accountDbId  String    @db.ObjectId  // Mongo _id of Account
+
+  plaidId   String           @unique   // transaction_id from Plaid
+  name      String
+  amount    Float
+  category  String?
+  date      DateTime
+  createdAt DateTime @default(now())
+}
+
+

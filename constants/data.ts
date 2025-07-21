@@ -6,3 +6,9 @@ export const BankLogos: string[] = [
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9-XobsSvGp696OuSP65Iy6R9PGCHNlDw8Nw&s',
   'https://images.seeklogo.com/logo-png/42/1/capital-one-logo-png_seeklogo-425557.png',
 ];
+export const starterQuestions: string[] = [
+  'What is my current balance?',
+  'Show me recent transactions.',
+  'How much did I spend on groceries last month?',
+  'Do I have any upcoming bills?',
+];

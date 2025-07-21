@@ -1,21 +1,23 @@
-import React from 'react';
 import Logo from './Logo';
 import Navlinks from './Navlinks';
-import Theme from './theme';
+
 import Avatar from './Avatar';
+import ThemeToggle from './theme';
 
 const Navbar = () => {
   return (
-    <div className="p-8 flex justify-between">
+    <div className="p-6 sm:p-8 flex justify-between items-center w-full">
       <Logo />
-      <Navlinks />
-      <div className="flex justify-between items-center">
-        <Avatar />
+      <div>
+        <Navlinks />
+      </div>
 
-        {/* Theme toggle (always visible) */}
-        <Theme />
+      <div className="flex items-center gap-4">
+        <Avatar />
+        <ThemeToggle />
       </div>
     </div>
   );
 };
+
 export default Navbar;

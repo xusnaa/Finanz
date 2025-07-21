@@ -1,6 +1,16 @@
 @import 'tailwindcss';
-body {
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  background-color: white;
+}
+
+html.dark {
   background-color: oklch(13% 0.028 261.692);
+}
+
+body {
   height: 100%;
   width: 100%;
 }

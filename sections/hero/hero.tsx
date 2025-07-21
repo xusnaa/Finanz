@@ -3,10 +3,14 @@ import React from 'react';
 
 const Hero = () => {
   return (
-    <div className="p-4 sm:p-7 mt-10 flex flex-col sm:flex-row items-center justify-center w-full h-[60vh] max-w-screen-xl mx-auto">
+    <div className="p-4 sm:p-7 mt-10 flex flex-col sm:flex-row items-center justify-center w-full h-[60vh] max-w-screen-xl mx-auto ">
       {/* Text Section */}
-      <div className="text-center sm:text-left font-extrabold text-4xl sm:text-6xl text-slate-300 max-w-md sm:mr-20 leading-tight">
-        Meet Finanz <br />
+      <div className="text-center sm:text-left font-extrabold text-4xl sm:text-6xl text-slate-800 dark:text-slate-300 max-w-md sm:mr-20 leading-tight">
+        Meet{' '}
+        <span className="bg-gradient-to-r from-pink-500 to-purple-600 dark:from-pink-400 dark:to-purple-500 bg-clip-text text-transparent">
+          Finanz
+        </span>
+        <br />
         <span className="text-2xl sm:text-3xl font-light block mt-2">
           Your Intelligent Financial Sidekick
         </span>
@@ -24,19 +28,19 @@ const Hero = () => {
         />
 
         {/* Top Right - Hidden on small screens */}
-        <div className="hidden sm:absolute sm:top-4 sm:-right-52 text-slate-300 font-extrabold flex-col items-end text-sm sm:text-base sm:flex">
+        <div className="hidden sm:absolute sm:top-4 sm:-right-52 bg-gradient-to-r from-pink-500 to-purple-600 dark:from-pink-400 dark:to-purple-500 bg-clip-text text-transparent font-extrabold flex-col items-end text-sm sm:text-base sm:flex">
           <div className="text-xl ml-4">Financial tracking</div>
           <Image
-            src="/card.png"
+            src="/card2.png"
             alt="card"
             width={300}
             height={300}
-            className="object-contain max-w-[70%] sm:max-w-[100%]"
+            className="object-contain max-w-[70%] sm:max-w-[100%] mt-20 rotate-120"
           />
         </div>
 
         {/* Top Left - Hidden on small screens */}
-        <div className="hidden sm:absolute sm:top-0 sm:left-4 text-slate-300 font-bold text-sm sm:text-base sm:block">
+        <div className="hidden sm:absolute sm:top-0 sm:left-4 bg-gradient-to-r from-pink-500 to-purple-600 dark:from-pink-400 dark:to-purple-500 bg-clip-text text-transparent font-bold text-sm sm:text-base sm:block">
           <div className="text-xl">Budgeting</div>
           <Image
             src="/budegting.png"
