@@ -9,7 +9,7 @@ import { useAuth } from '@/lib/context';
 
 const navItems = [
   { label: 'Home', icon: Home, href: '/dashboard' },
-  { label: 'Categories', icon: Folder, href: '/categories' },
+  { label: 'Categories', icon: Folder, href: '/dashboard' },
   { label: 'Goals', icon: Flag, href: '/goals' },
   { label: 'Transactions', icon: List, href: '/transactions' },
   { label: 'Settings', icon: Settings, href: '/settings' },
