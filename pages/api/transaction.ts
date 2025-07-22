@@ -120,8 +120,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     res.status(200).json({ message: 'Transactions synced successfully' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Failed to sync transactions:', error);
-    res.status(500).json({ error: 'Failed to sync transactions', detail: error.message });
+
+    if (error instanceof Error) {
+      res.status(500).json({ error: 'Failed to sync transactions', detail: error.message });
+    } else {
+      res
+        .status(500)
+        .json({ error: 'Failed to sync transactions', detail: 'Unknown error occurred' });
+    }
   }
 }

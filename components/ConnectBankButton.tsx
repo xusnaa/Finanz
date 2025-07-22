@@ -36,6 +36,7 @@ export default function PlaidLinkButton() {
   const { open, ready } = usePlaidLink({
     token: linkToken ?? '',
     onSuccess: async (public_token) => {
+      if (!user) return;
       const res = await fetch('/api/exchange-public-token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,6 +55,7 @@ export default function PlaidLinkButton() {
   });
 
   const removeBank = async () => {
+    if (!user) return;
     await fetch(`/api/remove-bank?userId=${user.id}`, { method: 'DELETE' });
     setHasBank(false);
   };

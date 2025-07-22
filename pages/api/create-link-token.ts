@@ -26,13 +26,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     res.status(200).json({ link_token: response.data.link_token });
-  } catch (error: any) {
-    console.error('Plaid link token error:', {
-      message: error.message,
-      responseData: error.response?.data,
-      status: error.response?.status,
-      stack: error.stack,
-    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Plaid link token error:', {
+        message: error.message,
+        stack: error.stack,
+      });
+    } else {
+      console.error('Unknown error:', error);
+    }
+
     res.status(500).json({ error: 'Failed to create link token' });
   }
 }

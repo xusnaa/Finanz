@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 const MAX_MESSAGES = 10;
 const MAX_LENGTH = 500;
-
+type Message = { role: string; content: string };
 function sanitizeInput(text: string): string {
   return text
     .trim()
@@ -13,7 +13,7 @@ function sanitizeInput(text: string): string {
     .slice(0, MAX_LENGTH);
 }
 
-function isValidMessages(messages: any): boolean {
+function isValidMessages(messages: Message): boolean {
   return (
     Array.isArray(messages) &&
     messages.length <= MAX_MESSAGES &&
@@ -66,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!isValidMessages(messages)) return res.status(400).json({ error: 'Invalid input format' });
 
     // Sanitize messages
-    const sanitizedMessages = messages.map((msg: any) => ({
+    const sanitizedMessages = messages.map((msg: Message) => ({
       role: msg.role,
       content: sanitizeInput(msg.content),
     }));

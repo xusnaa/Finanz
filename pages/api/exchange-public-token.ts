@@ -65,8 +65,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     res.status(200).json({ access_token });
-  } catch (error: any) {
-    console.error('Plaid error:', error);
-    res.status(500).json({ error: 'Failed to exchange and save data', details: error.message });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Plaid error:', error);
+      res.status(500).json({ error: 'Failed to exchange and save data', details: error.message });
+    } else {
+      console.error('Unknown Plaid error:', error);
+      res
+        .status(500)
+        .json({ error: 'Failed to exchange and save data', details: 'Unknown error occurred' });
+    }
   }
 }

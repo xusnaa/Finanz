@@ -1,0 +1,6 @@
+# Ignore generated Prisma client code
+/lib/generated/
+
+/node_modules/
+/.next/
+/out/

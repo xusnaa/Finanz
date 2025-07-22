@@ -27,7 +27,7 @@ import {
 } from 'recharts';
 import Sidebar from '@/components/sidebar';
 import Chatbot from '@/components/Chatbot';
-import { Button } from '@/components/ui/button';
+
 import { Menu } from '@headlessui/react';
 import Banner from '@/components/Banner';
 import { useAuth } from '@/lib/context';
@@ -47,11 +47,36 @@ interface Account {
   mask?: string;
 }
 
-const income = 10000; // You can replace this with DB value if needed
+// Fix SummaryCardProps - icon must accept className prop
+type SummaryCardProps = {
+  title: string;
+  value: number;
+  icon: React.ReactElement<{ className?: string }>;
+  color: string; // e.g. "red", "blue", "green"
+};
+
+type ChartDropdownProps<T extends string> = {
+  selected: T;
+  setSelected: (option: T) => void;
+  options: T[];
+};
+
+type ChartDataPoint = {
+  date?: string; // make optional for Pie & Radar charts that use 'name' prop
+  value: number;
+  name?: string; // for pie/radar chart label
+};
+
+type ChartRendererProps = {
+  type: 'Line' | 'Bar' | 'Area' | 'Pie' | 'Radar' | 'Radial';
+  data: ChartDataPoint[];
+};
+
+const income = 10000; // Example fixed income
 
 const Dashboard: React.FC = () => {
-  const [transactionChart, setTransactionChart] = useState('Line');
-  const [categoryChart, setCategoryChart] = useState('Pie');
+  const [transactionChart, setTransactionChart] = useState<'Line' | 'Bar' | 'Area'>('Line');
+  const [categoryChart, setCategoryChart] = useState<'Pie' | 'Radar' | 'Radial'>('Pie');
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [selectedAccountId, setSelectedAccountId] = useState<string>('');
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -59,12 +84,14 @@ const Dashboard: React.FC = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
 
+  // Redirect if not logged in
   useEffect(() => {
     if (!loading && !user) {
       router.push('/');
     }
   }, [user, loading, router]);
 
+  // Fetch accounts on user load
   useEffect(() => {
     if (!user) return;
 
@@ -86,6 +113,7 @@ const Dashboard: React.FC = () => {
     fetchAccounts();
   }, [user]);
 
+  // Fetch transactions on account selection
   useEffect(() => {
     if (!user || !selectedAccountId) return;
 
@@ -110,22 +138,25 @@ const Dashboard: React.FC = () => {
 
   if (loading || !user) return <p className="p-8">Loading...</p>;
 
+  // Calculate totals
   const expenses = transactions.reduce((acc, t) => acc + t.amount, 0);
   const balance = income - expenses;
 
-  const chartData = transactions.map((tx) => ({
+  // Format chart data for time-series charts (date + value)
+  const chartData: ChartDataPoint[] = transactions.map((tx) => ({
     date: tx.date,
     value: tx.amount,
   }));
 
-  const categoriesData = Object.values(
+  // Aggregate by category for pie/radar/radial charts
+  const categoriesData: ChartDataPoint[] = Object.values(
     transactions.reduce(
       (acc, tx) => {
         if (!acc[tx.category]) acc[tx.category] = { name: tx.category, value: 0 };
         acc[tx.category].value += tx.amount;
         return acc;
       },
-      {} as Record<string, { name: string; value: number }>,
+      {} as Record<string, ChartDataPoint>,
     ),
   );
 
@@ -200,7 +231,7 @@ export default Dashboard;
 
 // --- Reusable components ---
 
-const SummaryCard = ({ title, value, icon, color }: any) => (
+const SummaryCard = ({ title, value, icon, color }: SummaryCardProps) => (
   <div className="bg-white dark:bg-slate-900 shadow-md rounded-xl p-6 space-y-2">
     <div className="flex justify-between items-center">
       <h4 className="font-bold text-lg">{title}</h4>
@@ -215,13 +246,17 @@ const SummaryCard = ({ title, value, icon, color }: any) => (
   </div>
 );
 
-const ChartDropdown = ({ selected, setSelected, options }: any) => (
+const ChartDropdown = <T extends string>({
+  selected,
+  setSelected,
+  options,
+}: ChartDropdownProps<T>) => (
   <Menu as="div" className="relative">
     <Menu.Button className="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600">
       {selected}
     </Menu.Button>
     <Menu.Items className="absolute right-0 mt-2 w-32 bg-white dark:bg-slate-800 rounded shadow-lg z-10">
-      {options.map((option: string) => (
+      {options.map((option) => (
         <Menu.Item key={option}>
           {({ active }) => (
             <button
@@ -237,7 +272,7 @@ const ChartDropdown = ({ selected, setSelected, options }: any) => (
   </Menu>
 );
 
-const ChartRenderer = ({ type, data }: any) => {
+const ChartRenderer = ({ type, data }: ChartRendererProps) => {
   const [isClient, setIsClient] = useState(false);
   const COLORS = ['#6366f1', '#10b981', '#f43f5e', '#f59e0b'];
 
@@ -293,7 +328,7 @@ const ChartRenderer = ({ type, data }: any) => {
             fill="#8884d8"
             label
           >
-            {data.map((_: any, index: number) => (
+            {data.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
