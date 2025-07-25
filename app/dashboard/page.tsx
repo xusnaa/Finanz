@@ -47,7 +47,6 @@ interface Account {
   mask?: string;
 }
 
-// Fix SummaryCardProps - icon must accept className prop
 type SummaryCardProps = {
   title: string;
   value: number;
@@ -62,17 +61,15 @@ type ChartDropdownProps<T extends string> = {
 };
 
 type ChartDataPoint = {
-  date?: string; // make optional for Pie & Radar charts that use 'name' prop
+  date?: string;
   value: number;
-  name?: string; // for pie/radar chart label
+  name?: string;
 };
 
 type ChartRendererProps = {
   type: 'Line' | 'Bar' | 'Area' | 'Pie' | 'Radar' | 'Radial';
   data: ChartDataPoint[];
 };
-
-const income = 10000; // Example fixed income
 
 const Dashboard: React.FC = () => {
   const [transactionChart, setTransactionChart] = useState<'Line' | 'Bar' | 'Area'>('Line');
@@ -84,14 +81,12 @@ const Dashboard: React.FC = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
 
-  // Redirect if not logged in
   useEffect(() => {
     if (!loading && !user) {
       router.push('/');
     }
   }, [user, loading, router]);
 
-  // Fetch accounts on user load
   useEffect(() => {
     if (!user) return;
 
@@ -101,6 +96,7 @@ const Dashboard: React.FC = () => {
         const data = await res.json();
         if (res.ok) {
           setAccounts(data.accounts);
+
           if (data.accounts.length > 0) {
             setSelectedAccountId(data.accounts[0].id);
           }
@@ -138,20 +134,20 @@ const Dashboard: React.FC = () => {
 
   if (loading || !user) return <p className="p-8">Loading...</p>;
 
-  // Calculate totals
+  const income = accounts ? 10000 : 0;
+
   const expenses = transactions.reduce((acc, t) => acc + t.amount, 0);
   const balance = income - expenses;
 
-  // Format chart data for time-series charts (date + value)
   const chartData: ChartDataPoint[] = transactions.map((tx) => ({
     date: tx.date,
     value: tx.amount,
   }));
 
-  // Aggregate by category for pie/radar/radial charts
   const categoriesData: ChartDataPoint[] = Object.values(
     transactions.reduce(
       (acc, tx) => {
+        const category = tx.category || 'Uncategorized';
         if (!acc[tx.category]) acc[tx.category] = { name: tx.category, value: 0 };
         acc[tx.category].value += tx.amount;
         return acc;
@@ -161,14 +157,18 @@ const Dashboard: React.FC = () => {
   );
 
   return (
-    <div className="flex min-h-screen gap-4 bg-gray-100 dark:bg-slate-950 dark:text-slate-200">
+    <div className="flex min-h-screen bg-gray-200 dark:bg-slate-950 dark:text-slate-200">
       <Sidebar />
 
-      <main className="flex-1 flex flex-col ml-4">
+      <main className="flex-1 flex flex-col p-4 pt-20 md:pt-6">
         <Banner />
+        {!accounts && (
+          <div className="mx-6 mb-4 text-yellow-700 bg-yellow-100 dark:bg-yellow-900 p-4 rounded-md shadow">
+            Please connect your bank account to view income and transactions.
+          </div>
+        )}
 
         <div className="p-6 flex flex-col gap-8">
-          {/* Account Selector */}
           <div>
             <label className="text-sm font-medium mb-1 block">Select Account:</label>
             <select
@@ -207,14 +207,21 @@ const Dashboard: React.FC = () => {
 
             <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold">Categories</h3>
+                <h3 className="text-xl font-bold">Charts</h3>
                 <ChartDropdown
                   selected={categoryChart}
                   setSelected={setCategoryChart}
                   options={['Pie', 'Radar', 'Radial']}
                 />
               </div>
-              <ChartRenderer type={categoryChart} data={categoriesData} />
+              <ChartRenderer
+                type={categoryChart}
+                data={[
+                  { name: 'Groceries', value: 400 },
+                  { name: 'Rent', value: 1200 },
+                  { name: 'Utilities', value: 200 },
+                ]}
+              />
             </div>
           </div>
         </div>

@@ -42,8 +42,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleModalclose, openRegister 
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center  bg-opacity-50 z-50 px-4">
-      <div className=" bg-gray-100 dark:bg-slate-950 rounded-lg shadow-lg w-full max-w-md md:max-w-xl p-6 overflow-y-auto max-h-[90vh]">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/70 dark:bg-transparent bg-opacity-100 z-50 px-4">
+      <div className=" bg-gray-200 dark:bg-slate-900 rounded-lg shadow-lg w-full max-w-md md:max-w-xl p-6 overflow-y-auto max-h-[90vh]">
         <form onSubmit={handleLogin} className="relative flex flex-col gap-6">
           <div
             className="absolute top-4 right-4 cursor-pointer text-black dark:text-slate-300"
@@ -63,7 +63,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleModalclose, openRegister 
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-2 w-full bg-transparent rounded-lg border-2 text-black dark:text-slate-300"
+            className="p-3 w-full bg-transparent rounded-lg border-2 border-gray-400 text-black dark:text-slate-300"
             placeholder="e-mail"
             required
           />
@@ -71,13 +71,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleModalclose, openRegister 
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="p-2 w-full bg-transparent rounded-lg border-2 text-black dark:text-slate-300"
+            className="p-3 w-full bg-transparent rounded-lg border-2 border-gray-400 text-black dark:text-slate-300"
             placeholder="password"
             required
           />
           <button
             type="submit"
-            className="mt-6 p-2 w-full bg-gradient-to-r from-pink-500 to-purple-600  text-xl text-white  font-bold rounded-full border-2"
+            className="mt-6 p-2 w-full bg-gradient-to-r from-pink-500 to-purple-600  text-xl text-white  font-bold rounded-full border-2 border-transparent"
           >
             Login
           </button>

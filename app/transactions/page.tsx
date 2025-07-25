@@ -7,6 +7,7 @@ import Banner from '@/components/Banner';
 import { Plus, Upload } from 'lucide-react';
 import Sidebar from '@/components/sidebar';
 import { useAuth } from '@/lib/context';
+import { useRouter } from 'next/navigation';
 
 interface Transaction {
   date: string;
@@ -24,10 +25,13 @@ interface Account {
 }
 
 const TransactionPage = () => {
+  const router = useRouter();
+  const { user } = useAuth();
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [selectedAccountId, setSelectedAccountId] = useState<string>('');
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [form, setForm] = useState({
     date: '',
@@ -36,9 +40,11 @@ const TransactionPage = () => {
     amount: '',
     account: '',
   });
-
-  const { user } = useAuth();
-
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/');
+    }
+  }, [user, loading, router]);
   useEffect(() => {
     if (!user) return;
 

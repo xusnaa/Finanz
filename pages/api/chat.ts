@@ -1,35 +1,12 @@
 import { prisma } from '@/lib/prisma';
+import { isValidMessages, sanitizeInput } from '@/lib/validateTest';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const MAX_MESSAGES = 10;
 const MAX_LENGTH = 500;
 type Message = { role: string; content: string };
-function sanitizeInput(text: string): string {
-  return text
-    .trim()
-    .replace(/<[^>]*>?/gm, '')
-    .replace(/(script|function|eval|alert|window|document)/gi, '')
-    .replace(/[`$<>]/g, '')
-    .slice(0, MAX_LENGTH);
-}
 
-function isValidMessages(messages: Message): boolean {
-  return (
-    Array.isArray(messages) &&
-    messages.length <= MAX_MESSAGES &&
-    messages.every(
-      (msg) =>
-        typeof msg === 'object' &&
-        (msg.role === 'user' || msg.role === 'assistant') &&
-        typeof msg.content === 'string' &&
-        msg.content.length <= MAX_LENGTH,
-    )
-  );
-}
-
-// Helper: fetch user financial summary from DB (example)
 async function getUserFinancialData(userId: string) {
-  // fetch accounts and total balance (example)
   const accounts = await prisma.account.findMany({
     where: { plaidItem: { userId } },
     select: {
@@ -49,7 +26,6 @@ async function getUserFinancialData(userId: string) {
     },
   });
 
-  // You can customize more summary/aggregations here
   return accounts;
 }
 
@@ -88,7 +64,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       )
       .join('\n\n');
 
-    // Insert this context at the start of the messages for OpenAI
     const promptMessages = [
       {
         role: 'system',
@@ -97,7 +72,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       ...sanitizedMessages,
     ];
 
-    // Call OpenAI Chat API
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {

@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 // Define your expected user structure here
 interface User {
   id: string;
-  name: string;
+  firstname: string;
+  latname: string;
   email: string;
   // Add other fields if needed, like role, token, etc.
 }

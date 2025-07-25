@@ -108,8 +108,14 @@ const Chatbot = () => {
   return (
     <div className="fixed bottom-10 right-0 z-50">
       {!open ? (
-        <Button onClick={() => setOpen(true)} className="text-lg px-4 py-2 rounded-full shadow-md">
-          💬 Chat with AI
+        <Button
+          onClick={() => setOpen(true)}
+          className="p-10 bg-gray-100  rounded-full shadow-md w-3xl"
+        >
+          <div className="text-xl bg-gradient-to-r from-pink-500 to-purple-600 dark:from-pink-400 dark:to-purple-500 bg-clip-text text-transparent">
+            {' '}
+            💬 Chat with AI
+          </div>
         </Button>
       ) : (
         <div className="bg-white dark:bg-slate-900 shadow-xl rounded-lg w-80 h-[500px] max-h-[500px] flex flex-col">
