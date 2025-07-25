@@ -16,7 +16,7 @@ jobs:
           node-version: '18' # or your Node version
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run ESLint
         run: npm run lint
