@@ -31,7 +31,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleModalclose, openRegister 
 
     if (res.ok) {
       alert('Login successful');
-      console.log('User:', data.user);
+      
 
       login(data.user);
       handleModalclose();
